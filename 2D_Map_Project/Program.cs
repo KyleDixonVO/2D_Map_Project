@@ -11,18 +11,21 @@ namespace _2D_Map_Project
         static int[,] TileArray = new int[rows, columns];
         static int rows = 12;
         static int columns = 30;
-        static int scale;
+        static int scale = 2;
+        static string repeatLine;
         static void Main(string[] args)
         {
-            Console.SetWindowSize(30, 15);
-            Console.SetBufferSize(30, 15);
             DisplayMap();
+            SetScale();
+            DisplayMap(scale);
             Console.ReadKey(true);
         }
 
         static void DisplayMap()
-        { 
-          for (int i = 0; i < 12; i++)
+        {
+            Console.SetWindowSize(30, 30);
+            Console.SetBufferSize(30, 30);
+            for (int i = 0; i < 12; i++)
             {
                 for (int j = 0; j < 30; j++)
                 {
@@ -34,7 +37,21 @@ namespace _2D_Map_Project
 
         static void DisplayMap(int scale)
         {
+            Console.SetWindowSize((30*scale),(15*scale));
+            Console.SetBufferSize((30*scale), (15*scale));
+            for (int i = 0; i < (12); i++)
+            {
+                for (int j = 0; j < (30); j++)
+                {
+                    for (int k = 0; k < scale; k++)
+                    {
+                        Console.Write(map[i, j]);
+                    }    
+                }
+                repeatLine = Console.ReadLine();
+                Console.WriteLine(repeatLine);
 
+            }
         }
 
         static void SetScale()
@@ -45,9 +62,9 @@ namespace _2D_Map_Project
             Console.WriteLine("Than Zero.");
             string input = Console.ReadLine();
             bool isInteger = int.TryParse(input, out int inputResult);
-            if (isInteger == true && inputResult < 0)
+            if (isInteger == true && inputResult > 0)
             {
-               inputResult = scale ;
+               scale = inputResult;
             }
             else
             {
