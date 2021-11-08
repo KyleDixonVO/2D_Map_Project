@@ -8,16 +8,19 @@ using System.Diagnostics;
 namespace _2D_Map_Project
 {
     class Program
-    {
-        static int[,] TileArray = new int[rows, columns];
-        static int rows = 12;
-        static int columns = 30;
+    {   //public int Length { get; }
+        static int rows;
+        static int columns;
+        static int dimension;
         static int scale = 1;
         static int i;
         static int j;
         static void Main(string[] args)
         {
+            rows = map.GetUpperBound(dimension) + 1;
+            columns = map.GetUpperBound(dimension + 1) + 1;
             DisplayMap();
+            ShowLegend();
             SetScale();
             DisplayMap(scale);
             Console.ReadKey(true);
@@ -25,18 +28,18 @@ namespace _2D_Map_Project
 
         static void DisplayMap()
         {
-            Console.SetWindowSize(32, 30);
-            Console.SetBufferSize(32, 30);
+            Console.SetWindowSize((columns +2) , (rows * 3));
+            Console.SetBufferSize((columns + 2), (rows * 3));
             HorizontalBorder(scale);
-            for (int i = 0; i < 12; i++)
+            for (int i = 0; i < rows; i++)
             {
                 Console.Write("\r\n");
                 VerticalBorder();
                 //Console.SetCursorPosition(0, Console.CursorTop-1);
-                for (int j = 0; j < 30; j++)
+                for (int j = 0; j < columns; j++)
                 {
                     ColorMap(i, j);
-                    Console.Write(map[i,j]);
+                    Console.Write(map[i, j]);
                 }
                 VerticalBorder();
             }
@@ -46,23 +49,23 @@ namespace _2D_Map_Project
 
         static void DisplayMap(int scale)
         {
-            Console.SetWindowSize(((30*scale)+2),(20*scale));
-            Console.SetBufferSize(((30*scale)+2), (20*scale));
+            Console.SetWindowSize(((columns * scale) + 2), ((rows * scale)+3));
+            Console.SetBufferSize(((columns * scale) + 2), ((rows * scale)+3));
             HorizontalBorder(scale);
             for (i = 0; i < (rows); i++)
             {
-                for (int l = 0; l < scale; l ++)
+                for (int l = 0; l < scale; l++)
                 {
                     VerticalBorder();
                     for (j = 0; j < (columns); j++)
                     {
                         for (int k = 0; k < scale; k++)
-                        {   
+                        {
                             ColorMap(i, j);
                             Console.Write(map[i, j]);
-                        }                         
-                    }      
-                    VerticalBorder();     
+                        }
+                    }
+                    VerticalBorder();
                 }
             }
             HorizontalBorder(scale);
@@ -77,7 +80,7 @@ namespace _2D_Map_Project
             bool isInteger = int.TryParse(input, out int inputResult);
             if (isInteger == true && inputResult > 0)
             {
-               scale = inputResult;
+                scale = inputResult;
             }
             else
             {
@@ -87,7 +90,7 @@ namespace _2D_Map_Project
 
         }
 
-        static char[,] map = new char[12, 30]
+        static char[,] map = new char[,]
         {
             {'^','^','^','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\''},
         {'^','^','\'','\'','\'','\'','*','*','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','~','~','~','\'','\'','\''},
@@ -101,51 +104,81 @@ namespace _2D_Map_Project
         {'\'','\'','\'','\'','\'','\'','\'','~','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\''},
         {'\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\''},
         {'\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\''},
+        {'\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\''}, //extra row for testing
         };
 
         static void ColorMap(int i, int j)
         {
-            if (map[i,j] == '\'')
+            if (map[i, j] == '\'')
             {
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.BackgroundColor = ConsoleColor.DarkGreen;
             }
-            if  (map[i,j] == '^')
+            if (map[i, j] == '^')
             {
                 Console.ForegroundColor = ConsoleColor.DarkGray;
                 Console.BackgroundColor = ConsoleColor.Gray;
             }
-            if (map[i,j] == '*')
+            if (map[i, j] == '*')
             {
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.BackgroundColor = ConsoleColor.DarkGreen;
             }
-            if (map[i,j] == '~')
+            if (map[i, j] == '~')
             {
                 Console.ForegroundColor = ConsoleColor.Cyan;
                 Console.BackgroundColor = ConsoleColor.Blue;
             }
+          
         }
 
         static void VerticalBorder()
         {
-         Console.ResetColor();
-         Console.Write('¦');   
+            Console.ResetColor();
+            Console.Write('¦');
         }
 
         static void HorizontalBorder(int scale)
         {
-            for (int m = 0; m < ((30 * scale)+2); m++)
+            for (int m = 0; m < ((columns * scale) + 2); m++)
             {
                 Console.Write('»');
             }
         }
-        static void HorizontalBorder()
+
+        static void ShowArrayInfo(Array array)
         {
-            for (int m = 0; m < 32; m++)
+            Console.WriteLine(" Length of array:        {0,3}", array.Length);
+            Console.WriteLine(" Number of dimensions: {0,3}", array.Length);
+
+            if (array.Rank >1)
             {
-                Console.Write('+');
+                for ( dimension = 1; dimension <= array.Rank; dimension++)
+                {
+                    Console.WriteLine(" Dimension {0}: {1,3}", dimension, array.GetUpperBound(dimension - 1) + 1);
+                }
             }
         }
+
+        static void ShowLegend()
+        {
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.BackgroundColor = ConsoleColor.DarkGreen;
+            Console.WriteLine(" \' = Grass");
+            Console.ForegroundColor = ConsoleColor.DarkGray;
+            Console.BackgroundColor = ConsoleColor.Gray;
+            Console.WriteLine(" ^ = Mountains");
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.BackgroundColor = ConsoleColor.DarkGreen;
+            Console.WriteLine(" * = Trees");
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.BackgroundColor = ConsoleColor.Blue;
+            Console.Write(" ~ = Water");
+            Console.ResetColor();
+        }
+        
+        
+        
+        
     }
 }
