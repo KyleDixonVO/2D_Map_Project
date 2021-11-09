@@ -104,7 +104,7 @@ namespace _2D_Map_Project
         {'\'','\'','\'','\'','\'','\'','\'','~','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\''},
         {'\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\''},
         {'\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\''},
-        {'\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\''}, //extra row for testing
+        //{'\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\'','\''}, //extra row for testing
         };
 
         static void ColorMap(int i, int j)
@@ -164,17 +164,18 @@ namespace _2D_Map_Project
         {
             Console.ForegroundColor = ConsoleColor.Green;
             Console.BackgroundColor = ConsoleColor.DarkGreen;
-            Console.WriteLine(" \' = Grass");
+            Console.Write("\r\n \' = Grass");
             Console.ForegroundColor = ConsoleColor.DarkGray;
             Console.BackgroundColor = ConsoleColor.Gray;
-            Console.WriteLine(" ^ = Mountains");
+            Console.Write("\r\n ^ = Mountains");
             Console.ForegroundColor = ConsoleColor.Green;
             Console.BackgroundColor = ConsoleColor.DarkGreen;
-            Console.WriteLine(" * = Trees");
+            Console.Write("\r\n * = Trees");
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.BackgroundColor = ConsoleColor.Blue;
-            Console.Write(" ~ = Water");
+            Console.Write("\r\n ~ = Water");
             Console.ResetColor();
+            Console.Write("\r\n");
         }
         
         
